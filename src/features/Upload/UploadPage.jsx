@@ -39,7 +39,7 @@ const UploadPage = () => {
             // The browser sets the correct Content-Type header, including the necessary boundary, automatically.
             const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
             
-            const response = await fetch('http://https://ardu-backend.onrender.com/api/posts/create', {
+            const response = await fetch('https://ardu-backend.onrender.com/api/posts/create', {
                 method: 'POST',
                 headers,
                 body: formData,

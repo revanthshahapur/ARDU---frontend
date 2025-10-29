@@ -3,7 +3,7 @@
 // specifically for Post-related operations.
 
 // The base URL for your Spring Boot application
-const API_BASE_URL = 'http://https://ardu-backend.onrender.com/api';
+const API_BASE_URL = 'https://ardu-backend.onrender.com/api';
 const POSTS_URL = `${API_BASE_URL}/posts`;
 
 // Helper function to handle fetching with error logging

@@ -24,7 +24,7 @@ const EmojiReactions = ({ postId, currentUser, token, onReaction }) => {
         }
         
         try {
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${postId}/reactions/summary`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${postId}/reactions/summary`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ const EmojiReactions = ({ postId, currentUser, token, onReaction }) => {
                 reactionType = null;
             }
 
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${postId}/reaction`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${postId}/reaction`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -181,7 +181,7 @@ const PostCard = ({ post, currentUser, onPostUpdate }) => {
 
     const fetchReactionSummary = async () => {
         try {
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${post.id}/reactions/summary`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${post.id}/reactions/summary`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

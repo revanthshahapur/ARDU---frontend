@@ -12,7 +12,7 @@ const UserPendingPosts = () => {
 
     const fetchUserPosts = useCallback(async () => {
         try {
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/user/${user.id}`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/user/${user.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const UserPendingPosts = () => {
     const handleSaveEdit = async (postId) => {
         try {
             console.log('Saving post:', postId, 'with caption:', editCaption);
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${postId}`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${postId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -73,7 +73,7 @@ const UserPendingPosts = () => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
                 console.log('Deleting post:', postId);
-                const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${postId}/user`, {
+                const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${postId}/user`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`

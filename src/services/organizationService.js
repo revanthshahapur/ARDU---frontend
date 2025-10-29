@@ -17,7 +17,7 @@ export const getOrganizationContent = async (token) => {
 export const organizationService = {
     async getContent(token) {
         try {
-            const response = await fetch('http://https://ardu-backend.onrender.com/api/organization', {
+            const response = await fetch('https://ardu-backend.onrender.com/api/organization', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

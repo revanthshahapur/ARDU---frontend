@@ -3,8 +3,8 @@ import axios from "axios";
 import { getAuthHeader } from "../../Auth/services/authHeaderService";
 
 // Base URLs for the two separate backend entities
-const USER_API_URL = "http://https://ardu-backend.onrender.com/api/users";
-const ADMIN_API_URL = "http://https://ardu-backend.onrender.com/api/admins"; 
+const USER_API_URL = "https://ardu-backend.onrender.com/api/users";
+const ADMIN_API_URL = "https://ardu-backend.onrender.com/api/admins"; 
 
 // ------------------------------------------------------------------
 // USER Service Functions (Existing)

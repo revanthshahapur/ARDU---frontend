@@ -21,7 +21,7 @@ const ReactionDetails = ({ postId, onClose }) => {
 
     const fetchReactionDetails = async () => {
         try {
-            const response = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${postId}/reactions/details`, {
+            const response = await fetch(`https://ardu-backend.onrender.com/api/posts/${postId}/reactions/details`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

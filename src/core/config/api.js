@@ -2,7 +2,7 @@
 import axios from 'axios'; 
 
 // --- Configuration Constants ---
-export const BASE_URL = 'http://https://ardu-backend.onrender.com'; // Replace with your actual base URL
+export const BASE_URL = 'https://ardu-backend.onrender.com'; // Replace with your actual base URL
 export const API_ENDPOINTS = {
     // Authentication
     REGISTER: '/api/users/register',

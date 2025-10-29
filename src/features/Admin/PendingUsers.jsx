@@ -10,7 +10,7 @@ const PendingUsers = () => {
 
     const fetchPendingUsers = useCallback(async () => {
         try {
-            const response = await fetch('http://https://ardu-backend.onrender.com/api/admin/users/pending', {
+            const response = await fetch('https://ardu-backend.onrender.com/api/admin/users/pending', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const PendingUsers = () => {
     const handleUserAction = async (userId, action) => {
         setActionLoading(userId);
         try {
-            const endpoint = `http://https://ardu-backend.onrender.com/api/admin/users/${userId}/${action}`;
+            const endpoint = `https://ardu-backend.onrender.com/api/admin/users/${userId}/${action}`;
 
             const response = await fetch(endpoint, {
                 method: 'PUT',
