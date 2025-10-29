@@ -1,0 +1,19 @@
+/* src/index.css (or whichever file imports your Tailwind directives) */
+
+/* Existing directives MUST be present */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🛑 ADD THIS BLOCK BELOW THE UTILITIES LINE 🛑 */
+/* This forces Tailwind to recognize the custom utilities defined in the config. */
+@layer utilities {
+    /* Auto Rickshaw movement classes */
+    .animate-auto-move {
+        animation: moveAuto 15s linear infinite;
+    }
+
+    .animate-wheel-spin {
+        animation: spin 0.5s linear infinite;
+    }
+}
