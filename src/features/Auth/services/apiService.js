@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth'; // Still need getAuth for the current u
 let currentUserId = null;
 
 // Mock API Base URL (You would replace this with your actual backend URL)
-const API_BASE_URL = 'http://localhost:8080/api'; 
+const API_BASE_URL = 'http://https://ardu-backend.onrender.com/api'; 
 
 // --- Authentication & User ID Setup (Temporary) ---
 // Since we are decoupling from Firebase, we simulate user ID fetching.

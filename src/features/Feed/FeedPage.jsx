@@ -27,7 +27,7 @@ const FeedPage = () => {
             setError(null);
             const authHeaders = getAuthHeaders();
             
-            const response = await fetch('http://localhost:8080/api/posts', {
+            const response = await fetch('http://https://ardu-backend.onrender.com/api/posts', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -70,7 +70,7 @@ const FeedPage = () => {
                     };
 
                     try {
-                        const reactionResponse = await fetch(`http://localhost:8080/api/posts/${post.id}/reactions/summary`, {
+                        const reactionResponse = await fetch(`http://https://ardu-backend.onrender.com/api/posts/${post.id}/reactions/summary`, {
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
