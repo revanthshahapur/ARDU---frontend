@@ -157,27 +157,24 @@ const ProfilePage = () => {
   // Fetch profile data
   useEffect(() => {
     if (user?.id) {
-      // Try fetching admin profile for admins, but fall back to user endpoint if admin endpoint returns 404
+      // Prefer fetching from users endpoint first to avoid 404s on admin endpoints.
+      // If the current user is an admin, try to fetch admin-specific fields silently and merge them.
       const fetchProfile = async () => {
         try {
-          let data;
+          const base = await getUserById(user.id);
+          // If admin, attempt to fetch admin record silently and merge
           if (isCurrentUserAdmin) {
             try {
-              data = await getAdminById(user.id);
+              const adminData = await getAdminById(user.id);
+              // merge admin fields over base
+              setProfile({ ...base, ...adminData });
+              return;
             } catch (err) {
-              // If admin endpoint doesn't have this ID, try the users endpoint as a fallback
-              if (err?.response?.status === 404) {
-                console.warn(`Admin profile not found for id=${user.id}, falling back to users endpoint.`);
-                data = await getUserById(user.id);
-              } else {
-                throw err;
-              }
+              // silently ignore admin 404s or other errors to avoid noisy logs
             }
-          } else {
-            data = await getUserById(user.id);
           }
 
-          setProfile(data);
+          setProfile(base);
         } catch (err) {
           console.error("Error fetching profile:", err);
         }
@@ -193,14 +190,18 @@ const ProfilePage = () => {
     if (!file) return;
     setUploading(true);
     
-    // 🛑 CORE FIX 2: Conditional upload based on role
-    const uploadFunction = isCurrentUserAdmin ? uploadAdminImage : uploadUserImage;
-    
+    // Prefer user image endpoint to avoid admin 404s; backend may store images under users
     try {
-      const res = await uploadFunction(user.id, file); // Use the correct upload function
+      const res = await uploadUserImage(user.id, file);
       setProfile((prev) => ({ ...prev, imageUrl: res.url }));
     } catch (err) {
-      console.error("Image upload failed:", err);
+      // As a fallback, try admin upload (silently catch errors)
+      try {
+        const res2 = await uploadAdminImage(user.id, file);
+        setProfile((prev) => ({ ...prev, imageUrl: res2.url }));
+      } catch (err2) {
+        console.error("Image upload failed:", err2);
+      }
     } finally {
       setUploading(false);
     }
@@ -211,7 +212,7 @@ const ProfilePage = () => {
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4 sm:p-8 bg-white shadow-2xl rounded-2xl">
       
-      {/* ⬅️ BACK TO DASHBOARD BUTTON */}
+      {/* ⬅️ BACK TO DASHBOARD BUTTON */}z
       <button
         onClick={handleBackToDashboard}
         className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition duration-150 mb-6 px-3 py-1 rounded-lg border border-transparent hover:border-blue-200"
