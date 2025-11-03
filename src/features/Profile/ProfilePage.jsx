@@ -74,11 +74,22 @@ const EditProfileForm = ({ profile, setProfile, setEditMode, userRole }) => {
         return acc;
       }, {});
       
-      // 🛑 CORE FIX: Select the correct update function based on role
+      // Prefer updating via users endpoint first to avoid 404s on admin endpoints.
       const isAdmin = userRole === 'ADMIN' || userRole === 'MAIN_ADMIN';
-      const updateFunction = isAdmin ? updateAdmin : updateUser;
+      let res;
 
-      const res = await updateFunction(profile.id, dataToSend); // Use the selected function
+      try {
+        res = await updateUser(profile.id, dataToSend);
+      } catch (err) {
+        // If users endpoint fails with 404 and the user is an admin, try admin endpoint as a fallback
+        if (isAdmin && err?.response?.status === 404) {
+          console.info(`User update 404 for id=${profile.id}, trying admin endpoint as fallback.`);
+          res = await updateAdmin(profile.id, dataToSend);
+        } else {
+          throw err;
+        }
+      }
+
       setProfile(res);
       setEditMode(false); 
       alert("Profile updated successfully!");
