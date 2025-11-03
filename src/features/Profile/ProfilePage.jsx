@@ -157,13 +157,33 @@ const ProfilePage = () => {
   // Fetch profile data
   useEffect(() => {
     if (user?.id) {
-      
-      // 🛑 CORE FIX 1: Conditional fetching based on role
-      const fetchFunction = isCurrentUserAdmin ? getAdminById : getUserById;
-      
-      fetchFunction(user.id)
-        .then((data) => setProfile(data))
-        .catch((err) => console.error("Error fetching profile:", err));
+      // Try fetching admin profile for admins, but fall back to user endpoint if admin endpoint returns 404
+      const fetchProfile = async () => {
+        try {
+          let data;
+          if (isCurrentUserAdmin) {
+            try {
+              data = await getAdminById(user.id);
+            } catch (err) {
+              // If admin endpoint doesn't have this ID, try the users endpoint as a fallback
+              if (err?.response?.status === 404) {
+                console.warn(`Admin profile not found for id=${user.id}, falling back to users endpoint.`);
+                data = await getUserById(user.id);
+              } else {
+                throw err;
+              }
+            }
+          } else {
+            data = await getUserById(user.id);
+          }
+
+          setProfile(data);
+        } catch (err) {
+          console.error("Error fetching profile:", err);
+        }
+      };
+
+      fetchProfile();
     }
   }, [user, isCurrentUserAdmin]); // Added isCurrentUserAdmin to dependency array
 

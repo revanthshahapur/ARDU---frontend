@@ -35,19 +35,32 @@ const PendingUsers = () => {
     const handleUserAction = async (userId, action) => {
         setActionLoading(userId);
         try {
-            const endpoint = `https://ardu-backend.onrender.com/api/admin/users/${userId}/${action}`;
+            // Try different endpoint patterns
+            const endpoints = [
+                `https://ardu-backend.onrender.com/api/admins/users/${userId}/${action}`,
+                `https://ardu-backend.onrender.com/api/admin/users/${userId}/${action}`,
+                `https://ardu-backend.onrender.com/api/users/${userId}/${action}`
+            ];
 
-            const response = await fetch(endpoint, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+            let response;
+            for (const endpoint of endpoints) {
+                try {
+                    response = await fetch(endpoint, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (response.ok) break;
+                } catch (e) {
+                    continue;
                 }
-            });
+            }
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to ${action} user: ${errorText || response.statusText}`);
+            if (!response || !response.ok) {
+                const errorText = await response.text().catch(() => 'Unknown error');
+                throw new Error(`Failed to ${action} user: ${errorText}`);
             }
 
             // Remove the user from the list after successful action

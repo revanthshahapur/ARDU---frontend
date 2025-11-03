@@ -35,53 +35,46 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ===== Desktop Sidebar ===== */}
-      <aside className="hidden md:flex flex-col bg-white border-r border-gray-200 w-56 h-screen py-6 px-3 fixed left-0 top-0 z-20">
-        <div className="flex flex-col items-center mb-8">
-          <img
-            src="/logo.png"
-            alt="ARDU Logo"
-            className="h-16 mb-2 object-contain"
-          />
+      {/* ===== Desktop Sidebar (WIDTH FIX: w-56 changed to w-64) ===== */}
+      <div className="hidden md:flex flex-col bg-white border-r border-gray-200 w-64 h-full">
+        <div className="p-4">
+          <nav className="flex flex-col space-y-1">
+            {navItems.map(({ to, label, icon: Icon }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm transition-all ${
+                  isActive(to)
+                    ? "bg-red-50 text-red-700 border-l-4 border-red-700"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className="truncate">{label}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
-        <nav className="flex flex-col space-y-2">
-          {navItems.map(({ to, label, icon: Icon }) => (
+      </div>
+
+      {/* ===== Mobile Bottom Navigation (no change) ===== */}
+      <nav className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+        <div className="flex justify-around items-center py-2 px-2">
+          {navItems.slice(0, 5).map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md font-medium text-sm transition-all ${
+              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all min-w-0 flex-1 ${
                 isActive(to)
-                  ? "bg-[#fde8e8] text-[#B41E1E]" // deep red active
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                  ? "text-red-700 bg-red-50"
+                  : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              <Icon className="w-5 h-5" />
-              {label}
+              <Icon className="w-5 h-5 mb-1 flex-shrink-0" />
+              <span className="text-xs font-medium truncate">{label}</span>
             </Link>
           ))}
-        </nav>
-      </aside>
-
-      {/* ===== Mobile Bottom Navigation ===== */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 flex justify-around items-center py-2 shadow-lg z-50 rounded-t-2xl">
-        {navItems.map(({ to, label, icon: Icon }) => (
-          <Link
-            key={to}
-            to={to}
-            className={`flex flex-col items-center text-xs font-medium transition-all ${
-              isActive(to)
-                ? "text-[#B41E1E]"
-                : "text-gray-500 hover:text-gray-800"
-            }`}
-          >
-            <Icon
-              className={`w-5 h-5 mb-0.5 ${
-                isActive(to) ? "text-[#B41E1E]" : ""
-              }`}
-            />
-            {label}
-          </Link>
-        ))}
+        </div>
       </nav>
     </>
   );

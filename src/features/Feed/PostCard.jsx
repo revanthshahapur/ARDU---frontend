@@ -261,9 +261,18 @@ const PostCard = ({ post, currentUser, onPostUpdate }) => {
         }
     ];
 
+    const generateShareId = (postId) => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 10; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    };
+
     const handleShare = (platform = null) => {
         if (platform) {
-            const shareUrl = contentUrl || `${window.location.origin}/post/${post.id}`;
+            const shareUrl = `${window.location.origin}/share/p/${generateShareId(post.id)}/`;
             platform.action(shareUrl);
             setShareCount((v) => v + 1);
             onPostUpdate(post.id, { userShared: true, shares: shareCount + 1 });

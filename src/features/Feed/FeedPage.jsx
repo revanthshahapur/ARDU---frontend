@@ -181,10 +181,10 @@ const FeedPage = () => {
     // Loading state
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="bg-gray-50 min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading posts...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 font-medium">Loading posts...</p>
                 </div>
             </div>
         );
@@ -234,25 +234,23 @@ const FeedPage = () => {
 
     // Main feed content
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="bg-gray-50 min-h-screen">
             {/* Navigation Tabs */}
-            <div className="bg-white shadow-sm border-b sticky top-0 z-50">
-                <div className="max-w-2xl mx-auto">
+            <div className="bg-white shadow-sm border-b">
+                <div className="max-w-4xl mx-auto">
                     <div className="flex">
                         {navigationTabs.map(tab => (
                             <Link
                                 key={tab.path}
                                 to={tab.path}
-                                className={`
-                                    flex items-center px-6 py-4 space-x-2
-                                    ${location.pathname === tab.path
-                                        ? 'border-b-2 border-blue-500 text-blue-600'
-                                        : 'text-gray-500 hover:text-gray-700'}
-                                    transition-colors duration-200
-                                `}
+                                className={`flex items-center px-4 sm:px-6 py-3 space-x-2 transition-colors duration-200 ${
+                                    location.pathname === tab.path
+                                        ? 'border-b-2 border-red-600 text-red-600 bg-red-50'
+                                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                                }`}
                             >
-                                <span className="text-lg">{tab.icon}</span>
-                                <span>{tab.label}</span>
+                                <span className="text-sm">{tab.icon}</span>
+                                <span className="text-sm font-medium">{tab.label}</span>
                             </Link>
                         ))}
                     </div>
@@ -260,16 +258,16 @@ const FeedPage = () => {
             </div>
 
             {/* Content Area */}
-            <div className="max-w-2xl mx-auto px-4 py-4">
-                <div className="flex items-center justify-between mb-6">
+            <div className="max-w-4xl mx-auto px-4 py-4">
+                <div className="flex items-center justify-between mb-4">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">Feed</h1>
-                        <p className="text-gray-600">Welcome back, {user?.name || 'User'}!</p>
+                        <p className="text-gray-600 mt-1">Welcome back, {user?.name || 'User'}!</p>
                     </div>
                     <button
                         onClick={handleRefresh}
                         disabled={refreshing}
-                        className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                        className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 shadow-sm"
                     >
                         {refreshing ? (
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -278,26 +276,26 @@ const FeedPage = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
                         )}
-                        <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
+                        <span className="text-sm font-medium">{refreshing ? 'Refreshing...' : 'Refresh'}</span>
                     </button>
                 </div>
 
                 {/* Posts Container */}
-                <div className="space-y-6">
+                <div className="pb-6">
                     {posts.length === 0 ? (
-                        <div className="text-center py-12">
+                        <div className="text-center py-16 bg-white rounded-lg shadow-sm">
                             <div className="text-gray-400 text-6xl mb-4">📝</div>
                             <h3 className="text-xl font-semibold text-gray-700 mb-2">No Posts Yet</h3>
                             <p className="text-gray-500 mb-6">Be the first to share something with the community!</p>
                             <a
                                 href="/upload"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-block"
+                                className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors inline-block shadow-sm"
                             >
                                 Create Your First Post
                             </a>
                         </div>
                     ) : (
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                             {posts.map((post) => (
                                 <PostCard
                                     key={post.id}
@@ -313,9 +311,9 @@ const FeedPage = () => {
 
             {/* Refresh indicator */}
             {refreshing && (
-                <div className="fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
+                <div className="fixed top-20 right-4 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 z-50">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Refreshing posts...</span>
+                    <span className="text-sm">Refreshing posts...</span>
                 </div>
             )}
         </div>
